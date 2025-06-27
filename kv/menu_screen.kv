@@ -1,0 +1,21 @@
+<MenuScreen>:
+    BoxLayout:
+        orientation: "vertical"
+        spacing: 20
+        padding: 40
+
+        Label:
+            text: "Menu Principal"
+            font_size: 32
+
+        Button:
+            text: "Gestion des Clients"
+            on_release: app.root.current = "clients"
+
+        Button:
+            text: "Gestion des Produits"
+            on_release: app.root.current = "produits"
+
+        Button:
+            text: "Nouvelle Vente"
+            on_release: app.root.current = "ventes"

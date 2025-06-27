@@ -1,0 +1,26 @@
+<HomeScreen>:
+    name: "home"
+    BoxLayout:
+        orientation: "vertical"
+        padding: 40
+        spacing: 20
+
+        Label:
+            text: "Bienvenue dans l'application Épicerie"
+            font_size: 26
+
+        Button:
+            text: "Gérer les Clients"
+            on_release: root.manager.current = "clients"
+
+        Button:
+            text: "Gérer les Produits"
+            on_release: root.manager.current = "produits"
+
+        Button:
+            text: "Faire une Vente"
+            on_release: root.manager.current = "ventes"
+
+        Button:
+            text: "Déconnexion"
+            on_release: root.manager.current = "login"

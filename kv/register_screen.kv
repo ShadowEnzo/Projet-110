@@ -1,0 +1,39 @@
+<RegisterScreen>:
+    name: "register"
+    BoxLayout:
+        orientation: "vertical"
+        padding: 40
+        spacing: 15
+
+        Label:
+            text: "Créer un nouvel utilisateur"
+            font_size: 24
+            size_hint_y: None
+            height: 50
+
+        TextInput:
+            id: nom_input
+            hint_text: "Nom"
+            multiline: False
+
+        TextInput:
+            id: email_input
+            hint_text: "Email"
+            multiline: False
+
+        TextInput:
+            id: mdp_input
+            hint_text: "Mot de passe"
+            password: True
+            multiline: False
+
+        TextInput:
+            id: role_input
+            hint_text: "Rôle (admin ou vendeur)"
+            multiline: False
+
+        Button:
+            text: "Créer utilisateur"
+            size_hint_y: None
+            height: 45
+            on_release: root.enregistrer_utilisateur()
