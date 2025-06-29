@@ -1,14 +1,14 @@
 <VenteScreen>:
+    canvas.before:
+        Color:
+            rgba: 1, 0.98, 0.92, 1  # Jaune très clair pour différencier la vente
+        Rectangle:
+            pos: self.pos
+            size: self.size
     BoxLayout:
         orientation: "vertical"
         padding: 20
         spacing: 15
-        canvas.before:
-            Color:
-                rgba: 0.95, 0.95, 0.95, 1
-            Rectangle:
-                pos: self.pos
-                size: self.size
 
         Label:
             text: "Nouvelle Vente"
@@ -21,15 +21,12 @@
         BoxLayout:
             size_hint_y: None
             height: 40
-            spacing: 15
-
-            Label:
-                text: "Client :"
-                size_hint_x: None
-                width: 70
-                bold: True
-                color: 0.15, 0.15, 0.15, 1
-
+            spacing: 10
+            TextInput:
+                id: produit_search
+                hint_text: "Rechercher un produit..."
+                multiline: False
+                on_text: root.filtrer_produits(self.text)
             Spinner:
                 id: client_spinner
                 text: "Sélectionner un client"
@@ -39,41 +36,22 @@
 
         BoxLayout:
             size_hint_y: None
-            height: 40
-            spacing: 15
-
-            Label:
-                text: "Produit :"
-                size_hint_x: None
-                width: 70
-                bold: True
-                color: 0.15, 0.15, 0.15, 1
-
+            height: 50
+            spacing: 10
             Spinner:
                 id: produit_spinner
                 text: "Sélectionner un produit"
                 values: [str(p[1]) for p in root.produits]
                 size_hint_x: None
                 width: 230
-
-            Label:
-                text: "Quantité :"
-                size_hint_x: None
-                width: 80
-                bold: True
-                color: 0.15, 0.15, 0.15, 1
-
             TextInput:
                 id: quantite_input
+                hint_text: "Quantité"
                 multiline: False
                 input_filter: 'int'
                 size_hint_x: None
                 width: 80
-                padding: [10, 10, 10, 10]
                 font_size: 16
-                background_color: 1, 1, 1, 1
-                foreground_color: 0, 0, 0, 1
-
             Button:
                 text: "Ajouter au panier"
                 size_hint_x: None
@@ -105,7 +83,6 @@
             color: 0.1, 0.4, 0.7, 1
 
         ScrollView:
-            size_hint_y: 0.4
             GridLayout:
                 id: panier_list
                 cols: 1
@@ -118,7 +95,6 @@
             size_hint_y: None
             height: 50
             spacing: 15
-
             Label:
                 text: "Total :"
                 size_hint_x: None
@@ -126,13 +102,11 @@
                 font_size: 18
                 bold: True
                 color: 0.1, 0.4, 0.7, 1
-
             Label:
                 text: str(root.total)
                 bold: True
                 font_size: 18
                 color: 0.1, 0.4, 0.7, 1
-
             Button:
                 text: "Valider la vente"
                 background_color: 0.1, 0.5, 0.8, 1

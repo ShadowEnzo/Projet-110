@@ -1,14 +1,15 @@
 <ClientScreen>:
+    canvas.before:
+        Color:
+            rgba: 0.93, 1, 0.93, 1  # Vert très clair pour les clients
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
     BoxLayout:
         orientation: "vertical"
         padding: 20
         spacing: 15
-        canvas.before:
-            Color:
-                rgba: 0.95, 0.95, 0.95, 1
-            Rectangle:
-                pos: self.pos
-                size: self.size
 
         Label:
             text: "Gestion des Clients"
@@ -20,72 +21,21 @@
 
         BoxLayout:
             size_hint_y: None
-            height: 180
-            spacing: 15
-
-            BoxLayout:
-                orientation: "vertical"
-                spacing: 8
-
-                Label:
-                    text: "Nom :"
-                    size_hint_y: None
-                    height: 22
-                    bold: True
-                    color: 0.2, 0.2, 0.2, 1
-                TextInput:
-                    id: nom_input
-                    multiline: False
-                    padding: [10, 10, 10, 10]
-                    font_size: 16
-                    background_color: 1,1,1,1
-                    foreground_color: 0,0,0,1
-
-                Label:
-                    text: "Téléphone :"
-                    size_hint_y: None
-                    height: 22
-                    bold: True
-                    color: 0.2, 0.2, 0.2, 1
-                TextInput:
-                    id: tel_input
-                    multiline: False
-                    padding: [10, 10, 10, 10]
-                    font_size: 16
-                    input_filter: "int"
-                    background_color: 1,1,1,1
-                    foreground_color: 0,0,0,1
-
-                Label:
-                    text: "Adresse :"
-                    size_hint_y: None
-                    height: 22
-                    bold: True
-                    color: 0.2, 0.2, 0.2, 1
-                TextInput:
-                    id: adresse_input
-                    multiline: False
-                    padding: [10, 10, 10, 10]
-                    font_size: 16
-                    background_color: 1,1,1,1
-                    foreground_color: 0,0,0,1
-
+            height: 50
+            spacing: 10
+            TextInput:
+                id: search_input
+                hint_text: "Rechercher un client..."
+                multiline: False
+                on_text: root.filtrer_clients(self.text)
             Button:
-                text: "Ajouter"
-                size_hint_x: 0.25
+                text: "Ajouter un client"
+                size_hint_x: 0.3
                 background_color: 0.1, 0.5, 0.8, 1
                 color: 1,1,1,1
-                font_size: 18
+                font_size: 16
                 bold: True
-                on_release:
-                    root.ajouter_client(
-                    nom_input.text,
-                    tel_input.text,
-                    adresse_input.text
-                    )
-                    nom_input.text = ""
-                    tel_input.text = ""
-                    adresse_input.text = ""
+                on_release: root.ouvrir_popup_ajout()
 
         Label:
             text: root.message

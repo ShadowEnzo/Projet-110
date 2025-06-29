@@ -26,6 +26,9 @@ class EpicerieApp(App):
         sm.add_widget(ClientScreen(name="clients"))
         sm.add_widget(ProduitScreen(name="produits"))
         sm.add_widget(VenteScreen(name="ventes"))
+        # Suppression des écrans Statistiques et Aide
+        # sm.add_widget(StatsScreen(name="stats"))
+        # sm.add_widget(HelpScreen(name="help"))
 
         sm.current = "login"
         return sm

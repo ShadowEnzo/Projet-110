@@ -1,5 +1,12 @@
 <HomeScreen>:
     name: "home"
+    canvas.before:
+        Color:
+            rgba: 0.98, 0.98, 0.98, 1  # Gris très clair pour l'accueil
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
     BoxLayout:
         orientation: "vertical"
         padding: 40

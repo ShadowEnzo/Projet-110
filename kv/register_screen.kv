@@ -1,5 +1,11 @@
 <RegisterScreen>:
     name: "register"
+    canvas.before:
+        Color:
+            rgba: 1, 0.97, 0.97, 1  # Rose très pâle pour l'écran d'inscription
+        Rectangle:
+            pos: self.pos
+            size: self.size
     BoxLayout:
         orientation: "vertical"
         padding: 40
