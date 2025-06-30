@@ -1,33 +1,90 @@
+#:kivy 2.3.1
+#:import get_color_from_hex kivy.utils.get_color_from_hex
+#:import dp kivy.metrics.dp
+
 <HomeScreen>:
-    name: "home"
-    canvas.before:
-        Color:
-            rgba: 0.98, 0.98, 0.98, 1  # Gris très clair pour l'accueil
-        Rectangle:
-            pos: self.pos
-            size: self.size
-
-    BoxLayout:
+    name: "dashboard"
+    MDBoxLayout:
         orientation: "vertical"
-        padding: 40
-        spacing: 20
+        padding: [dp(40), dp(40), dp(40), dp(40)]
+        spacing: dp(30)
+        md_bg_color: get_color_from_hex("#F5F6FA")
 
-        Label:
-            text: "Bienvenue dans l'application Épicerie"
-            font_size: 26
+        MDLabel:
+            text: "Bienvenu(e) sur K'iosk"
+            font_size: "32sp"
+            bold: True
+            size_hint_y: 0.2
+            halign: "center"
+            theme_text_color: "Primary"
 
-        Button:
-            text: "Gérer les Clients"
-            on_release: root.manager.current = "clients"
+        MDCard:
+            orientation: "vertical"
+            padding: dp(24)
+            size_hint: None, None
+            size: dp(600), dp(260)
+            elevation: 8
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            md_bg_color: get_color_from_hex("#FFFFFF")
 
-        Button:
-            text: "Gérer les Produits"
-            on_release: root.manager.current = "produits"
+            MDGridLayout:
+                cols: 2
+                spacing: dp(20)
+                size_hint_y: None
+                height: dp(180)
 
-        Button:
-            text: "Faire une Vente"
-            on_release: root.manager.current = "ventes"
+                MDButton:
+                    style: "elevated"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                    on_release: app.root.current = "ventes"
+                    MDButtonIcon:
+                        icon: "cash-register"
+                    MDButtonText:
+                        text: "Nouvelle Vente"
 
-        Button:
-            text: "Déconnexion"
-            on_release: root.manager.current = "login"
+                MDButton:
+                    style: "elevated"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                    on_release: app.root.current = "produits"
+                    MDButtonIcon:
+                        icon: "package-variant"
+                    MDButtonText:
+                        text: "Gestion des Produits"
+
+                MDButton:
+                    style: "elevated"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                    on_release: app.root.current = "clients"
+                    MDButtonIcon:
+                        icon: "account-group"
+                    MDButtonText:
+                        text: "Gestion des Clients"
+
+                MDButton:
+                    style: "elevated"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                    on_release: app.root.current = "clients"
+                    MDButtonIcon:
+                        icon: "chart-bar"
+                    MDButtonText:
+                        text: "Statistiques"
+
+                MDButton:
+                    style: "elevated"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                    on_release: app.root.current = "login"
+                    MDButtonIcon:
+                        icon: "cog"
+                    MDButtonText:
+                        text: "Paramètres"
+
+        MDButton:
+            style: "filled"
+            pos_hint: {"center_x": 0.94, "center_y": 0.5}
+            on_release: app.root.current = "login"
+            theme_bg_color: "Custom"
+            md_bg_color: "brown"
+            MDButtonIcon:
+                icon: "location-exit"
+            MDButtonText:
+                text: "Déconnexion"

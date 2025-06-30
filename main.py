@@ -11,8 +11,10 @@ from screens.vente_screen import VenteScreen
 from screens.login_screen import LoginScreen
 from screens.register_screen import RegisterScreen
 from screens.home_screen import HomeScreen
+from kivymd.app import MDApp
 
-class EpicerieApp(App):
+
+class EpicerieApp(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.utilisateur_role = None

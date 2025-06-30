@@ -1,48 +1,69 @@
+#:kivy 2.3.1
+#:import get_color_from_hex kivy.utils.get_color_from_hex
+#:import dp kivy.metrics.dp
+
 <LoginScreen>:
     name: "login"
-    canvas.before:
-        Color:
-            rgba: 0.97, 0.97, 1, 1  # Bleu très pâle pour l'écran de connexion
-        Rectangle:
-            pos: self.pos
-            size: self.size
+    MDBoxLayout:
+        orientation: "horizontal"
 
-    BoxLayout:
-        orientation: "vertical"
-        padding: 50
-        spacing: 20
+        FitImage:
+            source: "assets/login_image.jpg"
+            size_hint_x: 0.5
 
-        Label:
-            text: "Connexion à l'épicerie"
-            font_size: 24
-            size_hint_y: None
-            height: 50
+        MDBoxLayout:
+            orientation: "vertical"
+            padding: [dp(50), dp(50), dp(50), dp(50)]
+            spacing: dp(20)
+            size_hint_x: 0.5
+            md_bg_color: get_color_from_hex("#F5F6FA")
 
-        TextInput:
-            id: email_input
-            hint_text: "Email"
-            multiline: False
-            size_hint_y: None
-            height: 40
+            MDLabel:
+                text: "Connexion à K'iosk"
+                font_size: "24sp"
+                size_hint_y: 0.2
+                halign: "center"
 
-        TextInput:
-            id: mdp_input
-            hint_text: "Mot de passe"
-            multiline: False
-            password: True
-            size_hint_y: None
-            height: 40
+            MDTextField:
+                id: email_input
 
-        Button:
-            text: "Se connecter"
-            size_hint_y: None
-            height: 45
-            on_release: root.se_connecter()
+                MDTextFieldHintText:
+                    text: "Email"
 
-        Button:
-            text: "Créer un compte"
-            size_hint_y: None
-            height: 40
-            background_color: (0.2,0.6,0.86,1)
-            on_release:
-                root.manager.current = "register"
+            MDTextField:
+                id: mdp_input
+                password: True
+
+                MDTextFieldHintText:
+                    text: "Mot de Passe"
+
+            MDGridLayout:
+                cols: 2
+                spacing: dp(40)
+                size_hint_y: None
+                height: dp(180)
+
+                MDButton:
+                    style: "elevated"
+                    on_release: root.se_connecter()
+                    pos_hint: {"center_x": 0.5, "center_y": 0.5},
+
+
+                    MDButtonIcon:
+                        icon: "login"
+                                
+                    MDButtonText:
+                        text: "Se connecter" 
+
+                MDButton:
+                    style: "elevated"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.5},
+
+                    on_release:
+                        root.manager.current = "register"
+
+                    MDButtonText:
+                        text: "Créer un compte"
+
+                    MDButtonIcon:
+                        icon: "account-plus"
