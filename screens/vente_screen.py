@@ -10,6 +10,9 @@ from kivy.uix.recycleview.layout import LayoutSelectionBehavior
 from kivy.uix.recycleboxlayout import RecycleBoxLayout
 from kivy.uix.recycleview import RecycleView
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label
+from kivy.uix.button import Button
 
 Builder.load_file("kv/vente_screen.kv")
 
@@ -102,8 +105,8 @@ class VenteScreen(Screen):
     def calculer_total(self):
         self.total = sum(item['prix_total'] for item in self.panier)
 
-    def valider_vente(self, client_id, utilisateur_id=1):
-        # utilisateur_id statique pour test, à adapter
+    def valider_vente(self, client_id):
+        utilisateur_id = self.client_ctrl.utilisateur_id  # Récupère l'utilisateur_id courant
         if not self.panier:
             self.message = "Le panier est vide"
             return
@@ -113,26 +116,46 @@ class VenteScreen(Screen):
             return
 
         vente_id = self.vente_ctrl.creer_vente(client_id, utilisateur_id, self.panier)
+        self.message = f"Vente enregistrée (ID: {vente_id})"
+        client = self.client_ctrl.get_client(client_id)
+        produits = []
+        for item in self.panier:
+            produits.append({
+                'nom': item['nom'],
+                'quantite': item['quantite'],
+                'prix': item['prix_total']
+            })
+        vente = {
+            'montant_total': sum(item['prix_total'] for item in self.panier)
+        }
+        facture_txt = self.generer_facture(vente, client, produits)
+        from kivy.uix.button import Button
+        box = BoxLayout(orientation='vertical', spacing=10, padding=10)
+        box.add_widget(Label(text=facture_txt, font_size=16))
+        btn_save = Button(text="Enregistrer la facture", size_hint_y=None, height=40)
+        btn_ok = Button(text="OK", size_hint_y=None, height=40)
+        box.add_widget(btn_save)
+        box.add_widget(btn_ok)
+        popup = Popup(title="Facture", content=box, size_hint=(0.7, 0.8))
+        btn_ok.bind(on_release=popup.dismiss)
+        btn_save.bind(on_release=lambda instance: self.enregistrer_facture(facture_txt))
+        btn_save.bind(on_release=lambda instance: popup.dismiss())
+        popup.open()
         self.panier = []
         self.calculer_total()
         self.afficher_panier()
-        self.message = f"Vente enregistrée (ID: {vente_id})"
-        self.charger_produits()  # pour rafraîchir stock si tu as gestion stock dans controller
-        # Afficher une popup de confirmation
-        from kivy.uix.popup import Popup
-        from kivy.uix.label import Label
-        from kivy.uix.button import Button
-        from kivy.uix.boxlayout import BoxLayout
-        box = BoxLayout(orientation='vertical', spacing=10, padding=10)
-        box.add_widget(Label(text=f"Vente enregistrée avec succès !\nID : {vente_id}", font_size=18))
-        btn_ok = Button(text="OK", size_hint_y=None, height=40)
-        box.add_widget(btn_ok)
-        popup = Popup(title="Confirmation", content=box, size_hint=(0.5,0.3))
-        btn_ok.bind(on_release=popup.dismiss)
-        popup.open()
-        # Réinitialiser les sélections
+        self.charger_produits()
         self.ids.client_spinner.text = "Sélectionner un client"
         self.ids.produit_spinner.text = "Sélectionner un produit"
+
+    def generer_facture(self, vente, client, produits):
+        facture = f"--- FACTURE ---\n"
+        facture += f"Client : {client[1]}\nTéléphone : {client[2]}\nAdresse : {client[3]}\n\n"
+        facture += "Produits :\n"
+        for prod in produits:
+            facture += f"- {prod['nom']} x{prod['quantite']} : {prod['prix']} FCFA\n"
+        facture += f"\nTotal : {vente['montant_total']} FCFA\n"
+        return facture
 
     def on_pre_enter(self):
         self.charger_clients()
