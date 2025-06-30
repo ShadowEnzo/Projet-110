@@ -20,11 +20,11 @@ class VenteScreen(Screen):
     message = StringProperty("")
     total = NumericProperty(0)
 
-    def __init__(self, **kwargs):
+    def __init__(self, utilisateur_id=None, **kwargs):
         super().__init__(**kwargs)
         self.vente_ctrl = VenteController()
-        self.client_ctrl = ClientController()
-        self.produit_ctrl = ProduitController()
+        self.client_ctrl = ClientController(utilisateur_id=utilisateur_id)
+        self.produit_ctrl = ProduitController(utilisateur_id=utilisateur_id)
         self.charger_clients()
         self.charger_produits()
         self.panier = []

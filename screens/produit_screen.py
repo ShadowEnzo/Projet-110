@@ -15,9 +15,10 @@ class ProduitScreen(Screen):
     produits = ListProperty([])
     message = StringProperty("")
 
-    def __init__(self, **kwargs):
+    def __init__(self, utilisateur_id=None, **kwargs):
         super().__init__(**kwargs)
-        self.controller = ProduitController()
+        self.utilisateur_id = utilisateur_id
+        self.controller = ProduitController(utilisateur_id=self.utilisateur_id)
         self.charger_produits()
 
     def ouvrir_popup_ajout(self):

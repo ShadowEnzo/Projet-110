@@ -18,9 +18,10 @@ class ClientScreen(Screen):
     clients = ListProperty([])
     message = StringProperty("")
 
-    def __init__(self, **kwargs):
+    def __init__(self, utilisateur_id=None, **kwargs):
+        self.utilisateur_id = utilisateur_id
         super().__init__(**kwargs)
-        self.controller = ClientController()
+        self.controller = ClientController(utilisateur_id=self.utilisateur_id)
         self.charger_clients()
 
     def charger_clients(self):

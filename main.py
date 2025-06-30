@@ -13,25 +13,41 @@ from screens.register_screen import RegisterScreen
 from screens.home_screen import HomeScreen
 
 class EpicerieApp(App):
-    def ___init__(self, **kwargs):
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.utilisateur_role = None
-        
+        self.utilisateur_id = None  # Stocke l'id de l'utilisateur connecté
+        self.sm = None
+    
     def build(self):
-        sm = ScreenManager()
-        sm.add_widget(RegisterScreen(name="register"))
-        sm.add_widget(LoginScreen(name="login"))
-        sm.add_widget(HomeScreen(name="home"))
-        sm.add_widget(MenuScreen(name="menu"))
-        sm.add_widget(ClientScreen(name="clients"))
-        sm.add_widget(ProduitScreen(name="produits"))
-        sm.add_widget(VenteScreen(name="ventes"))
+        self.sm = ScreenManager()
+        self.sm.add_widget(RegisterScreen(name="register"))
+        self.sm.add_widget(LoginScreen(name="login"))
+        self.sm.add_widget(HomeScreen(name="home"))
+        self.sm.add_widget(MenuScreen(name="menu"))
+        self.ajouter_ecrans_utilisateur()
+        self.ajouter_vente_screen_utilisateur()
         # Suppression des écrans Statistiques et Aide
         # sm.add_widget(StatsScreen(name="stats"))
         # sm.add_widget(HelpScreen(name="help"))
 
-        sm.current = "login"
-        return sm
+        self.sm.current = "login"
+        return self.sm
+
+    def ajouter_vente_screen_utilisateur(self):
+        if self.sm.has_screen("ventes"):
+            self.sm.remove_widget(self.sm.get_screen("ventes"))
+        self.sm.add_widget(VenteScreen(name="ventes", utilisateur_id=self.utilisateur_id))
+
+    def ajouter_ecrans_utilisateur(self):
+        # Supprime les écrans existants si déjà présents
+        if self.sm.has_screen("clients"):
+            self.sm.remove_widget(self.sm.get_screen("clients"))
+        if self.sm.has_screen("produits"):
+            self.sm.remove_widget(self.sm.get_screen("produits"))
+        # Ajoute les écrans avec le bon utilisateur_id
+        self.sm.add_widget(ClientScreen(name="clients", utilisateur_id=self.utilisateur_id))
+        self.sm.add_widget(ProduitScreen(name="produits", utilisateur_id=self.utilisateur_id))
 
 if __name__ == "__main__":
     EpicerieApp().run()

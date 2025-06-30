@@ -22,7 +22,9 @@ curseur.execute("""CREATE TABLE IF NOT EXISTS produits (
     nom TEXT NOT NULL,
     categorie TEXT,
     prix_unitaire REAL NOT NULL,
-    stock INTEGER NOT NULL)
+    stock INTEGER NOT NULL,
+    utilisateur_id INTEGER,
+    FOREIGN KEY(utilisateur_id) REFERENCES utilisateurs(id))
 """)
 
 # Table : clients
@@ -30,7 +32,9 @@ curseur.execute("""CREATE TABLE IF NOT EXISTS clients (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nom TEXT NOT NULL,
     telephone TEXT,
-    adresse TEXT)
+    adresse TEXT,
+    utilisateur_id INTEGER,
+    FOREIGN KEY(utilisateur_id) REFERENCES utilisateurs(id))
 """)
 
 # Table : ventes
